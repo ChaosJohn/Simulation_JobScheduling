@@ -77,6 +77,22 @@ isAllFinished() {
   return 1; 
 }
 
+void 
+updateJobs() {
+  JCBPointer cursor = jcbList->next; 
+  while(cursor != NULL) {
+    if (cursor->status != FINISH) {
+
+    }
+    cursor = cursor->next; 
+  }
+}
+
+JCBPointer 
+pickRunning() {
+  
+}
+
 /* 
  * 使用FCFS调度算法进行作业调度*/
 void 
