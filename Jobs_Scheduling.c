@@ -42,6 +42,9 @@ input(int jcbSize) {
   }
 }
 
+/* 
+ * 打印一条横线
+ * */
 void 
 printHorizontalBar() {
   int i; 
@@ -60,11 +63,27 @@ display() {
 
 }
 
+/* 
+ * 判断是否所有作业都已经完成
+ * */
+int 
+isAllFinished() {
+  JCBPointer cursor = jcbList->next; 
+  while(cursor != NULL) {
+    if(cursor->status != FINISH) 
+      return -1; 
+    cursor = cursor->next; 
+  }
+  return 1; 
+}
+
+/* 
+ * 使用FCFS调度算法进行作业调度*/
 void 
 runFCFS() {
   JCBPointer head = jcbList; 
   JCBPointer running; 
-  while (head->next != NULL) {
+  while (isAllFinished() != 1) {
     sortFCFS(); 
     running = head->next; 
     running->starttime = globalTime; 
