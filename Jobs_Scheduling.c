@@ -5,6 +5,7 @@
 
 #define RUN 1 
 #define WAIT 0 
+#define FINISH -1 
 
 typedef struct _jcb {
   int jid; 
@@ -38,5 +39,39 @@ input(int jcbSize) {
     pointer->next = NULL; 
     cursor->next = pointer; 
     cursor = cursor->next; 
+  }
+}
+
+void 
+printHorizontalBar() {
+  int i; 
+  for (i = 0; i <= 33; i++) 
+    printf("-"); 
+  printf("\n"); 
+} 
+
+void 
+sortFCFS() {
+
+}
+
+void 
+display() {
+
+}
+
+void 
+runFCFS() {
+  JCBPointer head = jcbList; 
+  JCBPointer running; 
+  while (head->next != NULL) {
+    sortFCFS(); 
+    running = head->next; 
+    running->starttime = globalTime; 
+    printf("\n#=>正在运行第  %d  个作业\n", running->jid); 
+    display(); 
+    sleep(1); 
+    running->status = FINISH; 
+    globalTime += running->needtime; 
   }
 }
