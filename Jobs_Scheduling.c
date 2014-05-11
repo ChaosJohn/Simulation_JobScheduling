@@ -48,7 +48,7 @@ input(int jcbSize) {
 void 
 printHorizontalBar() {
   int i; 
-  for (i = 0; i <= 33; i++) 
+  for (i = 0; i <= 40; i++) 
     printf("-"); 
   printf("\n"); 
 } 
@@ -60,7 +60,23 @@ sortFCFS() {
 
 void 
 display() {
-
+  JCBPointer cursor = jcbList->next; 
+  printHorizontalBar(); 
+  printf("|作业号\t|状态\t|进入\t|需要\t|等待\t|\n"); 
+  while(cursor != NULL) {
+    char status; 
+    if (cursor->status == RUN) 
+      status = 'R'; 
+    else if (cursor->status == WAIT) 
+      status = 'W'; 
+    else if (cursor->status == FINISH) 
+      status = 'F'; 
+    printf("|%d\t|%c\t|%d\t|%d\t|%d\t|\n", 
+        cursor->jid, status, cursor->entertime, 
+        cursor->needtime, cursor->waittime); 
+    cursor = cursor->next; 
+  }
+  printHorizontalBar(); 
 }
 
 /* 
@@ -82,7 +98,9 @@ updateJobs() {
   JCBPointer cursor = jcbList->next; 
   while(cursor != NULL) {
     if (cursor->status != FINISH) {
-
+      if (cursor->entertime <= globalTime) {
+        cursor->waittime = globalTime - cursor->entertime; 
+      }
     }
     cursor = cursor->next; 
   }
@@ -90,23 +108,51 @@ updateJobs() {
 
 JCBPointer 
 pickRunning() {
-  
+  updateJobs(); 
+  JCBPointer cursor = jcbList->next; 
+  JCBPointer running = cursor; 
+  while(cursor != NULL) {
+    if (cursor->status != FINISH) {
+      if (cursor->waittime > running->waittime) {
+        running = cursor; 
+      } 
+    }
+  }
+  return running; 
 }
 
 /* 
  * 使用FCFS调度算法进行作业调度*/
 void 
 runFCFS() {
-  JCBPointer head = jcbList; 
+  /*JCBPointer head = jcbList; */
   JCBPointer running; 
   while (isAllFinished() != 1) {
-    sortFCFS(); 
-    running = head->next; 
+    /*sortFCFS(); */
+    /*running = head->next; */
+    running = pickRunning(); 
     running->starttime = globalTime; 
     printf("\n#=>正在运行第  %d  个作业\n", running->jid); 
     display(); 
     sleep(1); 
     running->status = FINISH; 
+    printf("\n#=>第  %d  个作业已经运行结束\n", running->jid); 
     globalTime += running->needtime; 
+    sleep(1); 
   }
+}
+
+int 
+main(int argc, 
+    char **argv) {
+  int jcbSize = 0; 
+  /*int choose = 0; */
+  printf("需要建立的作业个数: "); scanf("%d", &jcbSize); fflush(stdin); 
+  input(jcbSize); 
+  display(); 
+  runFCFS(); 
+
+  printf("#=>全部作业已经结束\n"); 
+
+  return 0; 
 }
