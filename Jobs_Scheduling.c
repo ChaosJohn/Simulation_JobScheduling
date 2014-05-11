@@ -3,10 +3,16 @@
 #include <unistd.h> 
 #include <string.h> 
 
+/*
+ * 定义三种运行状态
+ * */ 
 #define RUN 1 
 #define WAIT 0 
 #define FINISH -1 
 
+/*  
+ * 作业控制块
+ * */
 typedef struct _jcb {
   int jid; 
   char *jname; 
@@ -21,6 +27,9 @@ typedef struct _jcb {
 JCBList jcbList; 
 int globalTime; 
 
+/* 
+ * 输入作业队列
+ * */
 void 
 input(int jcbSize) {
   int i; 
@@ -58,6 +67,9 @@ sortFCFS() {
 
 }
 
+/* 
+ * 打印作业表
+ * */
 void 
 display() {
   JCBPointer cursor = jcbList->next; 
@@ -93,6 +105,9 @@ isAllFinished() {
   return 1; 
 }
 
+/* 
+ * 更新作业的信息
+ * */
 void 
 updateJobs() {
   JCBPointer cursor = jcbList->next; 
@@ -106,6 +121,9 @@ updateJobs() {
   }
 }
 
+/* 
+ * 找到需要运行的作业
+ * */
 JCBPointer 
 pickRunning() {
   updateJobs(); 
@@ -128,6 +146,9 @@ pickRunning() {
   return running; 
 }
 
+/* 
+ * 初始化系统时间
+ * */
 void 
 initGlobalTime() {
   JCBPointer cursor = jcbList->next; 
@@ -145,6 +166,9 @@ initGlobalTime() {
   }
 }
 
+/* 
+ * 找到需要第一个进入队列的作业
+ * */
 JCBPointer 
 pickFirstJob() {
   JCBPointer cursor = jcbList->next; 
