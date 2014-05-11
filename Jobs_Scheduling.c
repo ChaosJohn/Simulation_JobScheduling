@@ -109,16 +109,51 @@ updateJobs() {
 JCBPointer 
 pickRunning() {
   updateJobs(); 
-  JCBPointer cursor = jcbList->next; 
-  JCBPointer running = cursor; 
+  JCBPointer cursor; 
+  JCBPointer running = jcbList->next; 
+  while(1) {
+    if (running->status != FINISH) 
+      break; 
+    running = running->next; 
+  }
+  cursor = running; 
   while(cursor != NULL) {
     if (cursor->status != FINISH) {
       if (cursor->waittime > running->waittime) {
         running = cursor; 
       } 
     }
+    cursor = cursor->next; 
   }
   return running; 
+}
+
+void 
+initGlobalTime() {
+  JCBPointer cursor = jcbList->next; 
+  globalTime = cursor->entertime; 
+  while(cursor != NULL) {
+    if (cursor->entertime < globalTime) {
+      globalTime = cursor->entertime; 
+    } 
+    cursor = cursor->next; 
+  }
+  cursor = jcbList->next; 
+  while(cursor != NULL) {
+    cursor->waittime = globalTime; 
+    cursor = cursor->next; 
+  }
+}
+
+JCBPointer 
+pickFirstJob() {
+  JCBPointer cursor = jcbList->next; 
+  while(cursor != NULL) {
+    if (cursor->entertime == globalTime) 
+      return cursor; 
+    cursor = cursor->next; 
+  }
+  return NULL; 
 }
 
 /* 
@@ -126,19 +161,28 @@ pickRunning() {
 void 
 runFCFS() {
   /*JCBPointer head = jcbList; */
+  initGlobalTime(); 
   JCBPointer running; 
+  int isFirst = 1; 
   while (isAllFinished() != 1) {
     /*sortFCFS(); */
     /*running = head->next; */
-    running = pickRunning(); 
+    if (isFirst) {
+      running = pickFirstJob(); 
+      isFirst = 0; 
+    } else {
+      running = pickRunning(); 
+    } 
     running->starttime = globalTime; 
+    running->status = RUN; 
     printf("\n#=>正在运行第  %d  个作业\n", running->jid); 
     display(); 
     sleep(1); 
     running->status = FINISH; 
-    printf("\n#=>第  %d  个作业已经运行结束\n", running->jid); 
+    printf("#=>第  %d  个作业已经运行结束\n", running->jid); 
     globalTime += running->needtime; 
     sleep(1); 
+    updateJobs(); 
   }
 }
 
@@ -152,7 +196,7 @@ main(int argc,
   display(); 
   runFCFS(); 
 
-  printf("#=>全部作业已经结束\n"); 
+  printf("\n#=>全部作业已经结束\n"); 
 
   return 0; 
 }

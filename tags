@@ -1,0 +1,32 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+FINISH	Jobs_Scheduling.c	8;"	d	file:
+JCBList	Jobs_Scheduling.c	/^} JCBNode, *JCBList, *JCBPointer; $/;"	t	typeref:struct:_jcb	file:
+JCBNode	Jobs_Scheduling.c	/^} JCBNode, *JCBList, *JCBPointer; $/;"	t	typeref:struct:_jcb	file:
+JCBPointer	Jobs_Scheduling.c	/^} JCBNode, *JCBList, *JCBPointer; $/;"	t	typeref:struct:_jcb	file:
+RUN	Jobs_Scheduling.c	6;"	d	file:
+WAIT	Jobs_Scheduling.c	7;"	d	file:
+_jcb	Jobs_Scheduling.c	/^typedef struct _jcb {$/;"	s	file:
+display	Jobs_Scheduling.c	/^display() {$/;"	f
+entertime	Jobs_Scheduling.c	/^  int entertime; $/;"	m	struct:_jcb	file:
+globalTime	Jobs_Scheduling.c	/^int globalTime; $/;"	v
+input	Jobs_Scheduling.c	/^input(int jcbSize) {$/;"	f
+isAllFinished	Jobs_Scheduling.c	/^isAllFinished() {$/;"	f
+jcbList	Jobs_Scheduling.c	/^JCBList jcbList; $/;"	v
+jid	Jobs_Scheduling.c	/^  int jid; $/;"	m	struct:_jcb	file:
+jname	Jobs_Scheduling.c	/^  char *jname; $/;"	m	struct:_jcb	file:
+main	Jobs_Scheduling.c	/^main(int argc, $/;"	f
+needtime	Jobs_Scheduling.c	/^  int needtime; $/;"	m	struct:_jcb	file:
+next	Jobs_Scheduling.c	/^  struct _jcb *next; $/;"	m	struct:_jcb	typeref:struct:_jcb::_jcb	file:
+pickRunning	Jobs_Scheduling.c	/^pickRunning() {$/;"	f
+printHorizontalBar	Jobs_Scheduling.c	/^printHorizontalBar() {$/;"	f
+runFCFS	Jobs_Scheduling.c	/^runFCFS() {$/;"	f
+sortFCFS	Jobs_Scheduling.c	/^sortFCFS() {$/;"	f
+starttime	Jobs_Scheduling.c	/^  int starttime; $/;"	m	struct:_jcb	file:
+status	Jobs_Scheduling.c	/^  int status; $/;"	m	struct:_jcb	file:
+updateJobs	Jobs_Scheduling.c	/^updateJobs() {$/;"	f
+waittime	Jobs_Scheduling.c	/^  int waittime; $/;"	m	struct:_jcb	file:
